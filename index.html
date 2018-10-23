@@ -13,22 +13,106 @@
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
-
+		<script src="env.js"></script>
+		<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
 		<!-- Printing and PDF exports -->
 		<script>
-			var link = document.createElement( 'link' );
+			var creds = new AWS.Credentials('AKIAJFA34JJCHBMRIL2Q',env.SK);
+
+			var machinelearning = new AWS.MachineLearning({apiVersion: '2014-12-12',region:'us-east-1',credentials:creds});
+
+			var params = {
+			MLModelId: 'ml-zlkrKR1zHz7', /* required */
+			PredictEndpoint: 'https://realtime.machinelearning.us-east-1.amazonaws.com', /* required */
+			Record: {
+				"time": "11/Oct/2018:07:06:26",
+        		"source": "18.212.222.218",
+				"req": "GET /images/old_players.jpg HTTP/1.1",
+				"response": "200",
+				"size": "1447194",
+				"name": "http://aleaguehasnoname.site/",
+				"browser": "Mozilla/5.0(X11;Linux64)AppleWebKit"
+			}
+			};
+			/*machinelearning.predict(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else     console.log(data);           // successful response
+			});
+*/
+			var paramsBad = {
+			MLModelId: 'ml-zlkrKR1zHz7', /* required */
+			PredictEndpoint: 'https://realtime.machinelearning.us-east-1.amazonaws.com', /* required */
+			Record: {
+				"time": "11/Oct/2018:07:06:26",
+        		"source": "85.143.223.55",
+				"req": "\x03\x00\x00*%\xE0\x00\x00\x00\x00\x00Cookie: mstshash=Test",
+				"response": "400",
+				"size": "176",
+				"name": "-",
+				"browser": "-"
+			}
+			};
+			/*
+			machinelearning.predict(paramsBad, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else     console.log(data);           // successful response
+			});
+
+*/
+
+		/*	var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
+			document.getElementsByTagName( 'head' )[0].appendChild( link );*/
+
+
 		</script>
 		<style>
-
+.button {
+  position: relative;
+  padding: 14px 0;
+  border: 1px #13DAEC solid;
+  color: #13DAEC;
+  cursor: pointer;
+  font-size: 0.9em;
+  background-color: #363636;
+  transition: color 0.4s, background-color 0.4s;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1em;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 210px;
+  top: 50%;
+  left: 50%;
+  margin: 0 -125px;
+  width: 250px;
+}
+.button:hover, .button:focus {
+  transition: color 0.4s, background-color 0.4s;
+  color: #fff;
+  text-decoration: none;
+  background-color: #13DAEC;
+}
 		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
+					<section>
+							<h3>Project 1</h3>
+							<p style="color:#13DAEC;">Security Applications of Machine Learning</p>
+							<p>Craig Kilgo (INFO 644)</p>
+						</section>
 				<section>
 					<h2>Problem</h2>
 					<div>Detect "attacks" on a webserver that I run.</div>
@@ -56,7 +140,12 @@
 				</section>
 				<section>
 						<h2>Logistic Regression</h2>
-						<p><img class="plain" src="img/*.png"></p>
+						<p><ul>
+							<li>Type of regression analysis used for predicting a binary target</li>
+							<li>Fast</li>
+							<li>Transparent</li>
+							<li>10<i>k</i>/<i>p</i> rule</li>
+						</ul></p>
 				</section>
 				<section>
 						<h2>Model Results</h2>
@@ -114,7 +203,43 @@
 				</section>
 				<section>
 						<h2>Model Usage</h2>
-						<p><img class="plain" src="img/*.png"></p>
+						<!--<p><input id="sk" type="text"></p>-->
+
+					<table style="font-size:60%;">
+
+						<tr>
+							<td>
+								<span style="font-size:75%;"><pre><code>
+{
+	"time": "23/Oct/2018:05:05:26",
+	"source": "18.212.222.218",
+	"req": "GET /images/old_players.jpg HTTP/1.1",
+	"response": "200",
+	"size": "1447194",
+	"name": "http://aleaguehasnoname.site/",
+	"browser": "Mozilla/5.0(X11;Linux64)AppleWebKit"
+}
+</code></pre>
+						</span>
+						<button class="button" id="goodBtn">Send Example Good</button>
+						</td>
+						<td>
+							<span style="font-size:75%;"><pre><code>
+{
+	"time": "21/Oct/2018:09:06:16",
+	"source": "85.143.223.55",
+	"req": "\x03\x00\x00*%\xE0\x00\x00\x00\x00\x00Cookie: mstshash=Test",
+	"response": "400",
+	"size": "176",
+	"name": "-",
+	"browser": "-"
+}
+</code></pre></span><button class="button" id="badBtn">Send Example Bad</button>
+							</td>
+
+					</tr>
+					</table><br>
+					<span style="font-size:75%;">Results in console.</span>
 				</section>
 			</div>
 		</div>
@@ -136,6 +261,25 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+			document.getElementById('goodBtn').addEventListener('click', function (event) {
+				machinelearning.predict(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else{
+			    console.log(data);           // successful response
+				//document.getElementById('goodResult').innerHTML = JSON.stringify(data);
+			}
+			});
+		});
+		document.getElementById('badBtn').addEventListener('click', function (event) {
+
+		machinelearning.predict(paramsBad, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else{
+				console.log(data);           // successful response
+				//document.getElementById('goodResult').innerHTML = JSON.stringify(data);
+			}
+			});
+		});
 		</script>
 	</body>
 </html>
